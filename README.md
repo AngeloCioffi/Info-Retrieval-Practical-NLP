@@ -1,3 +1,3 @@
 # Info-Retrieval-Practical-NLP
 
-Use python 3.4
+Use python 2.7
