@@ -1,0 +1,5 @@
+textacy
+spacy
+pycorenlp
+cld2-cffi
+
