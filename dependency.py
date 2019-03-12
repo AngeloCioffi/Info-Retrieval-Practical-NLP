@@ -1,5 +1,5 @@
 import sys
-from pycorenlp import StanfordCoreNLP
+from stanfordnlp.server import CoreNLPClient
 import json
 from textacy import extract as ext
 from textacy import Doc
@@ -11,20 +11,21 @@ def extract_triple(text):
         print("\t", item)
 
 def core_nlp_triple(text):
-    print("\nTriples from CoreNLP: ")
-    output = nlp.annotate(text, properties={'annotators': 'openie','outputFormat': 'json'})
-    relations = [ rel for sentence in output['sentences'] for rel in sentence['openie']]
-    for i in relations:
-        print("\t", tuple([i['subject'], i['relation'], i['object']]))
+    with CoreNLPClient(annotators=['openie','ner','coref'], timeout=30000, memory='16G') as client:
+        print("\nTriples from CoreNLP: ")
+        print(client.annotate(text))
 
 if __name__ == '__main__':
-    nlp = StanfordCoreNLP('http://localhost:9000')
     text = None
-    with open(sys.argv[1], 'r') as f:
-        text = f.readlines()
-
-    for line in text:
-        print("\n\n")
-        print(line)
-        extract_triple(line)
-        core_nlp_triple(line)
+    # with open(sys.argv[1], 'r') as f:
+    #     json_data = json.loads(f.read())
+    #
+    # for item in json_data.values():
+    #     print("\n\nArticle: ", item['title'])
+    #     extract_triple(item['article'])
+    #     core_nlp_triple(item['article'])
+    #     input()
+    var = "Amazon plans to open its first grocery store in Los Angeles as early as the end of the year, one person said. "
+    print(var)
+    extract_triple(var)
+    core_nlp_triple(var)
