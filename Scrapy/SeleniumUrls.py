@@ -32,7 +32,8 @@ for searchURL in searchURLs:
 
 					data[url] = {
 						'title': driver.find_element_by_css_selector('h1#article-headline').text,
-						'article': articleString
+						'article': articleString,
+						'date': driver.find_element_by_xpath('//p[@id="published-timestamp"]/span').text
 					}
 	except:
 		pass
