@@ -16,15 +16,28 @@ doc = nlp(doc_text)
 for token in doc:
     if token.dep == nsubj and token.head.pos == VERB:
         verb = token.head
+        triple = {}
+        right_dep = [dobj, pobj, npadvmod, acomp]
+        object_expanded = ""
         for right_token in verb.children:
-            if right_token.children
-
-            else if right_token == dobj
-                
-            else if right_token == pobj
-
-            else if right_token == prep
-
-            else if right_token == npadvmod
-
-            else if right_token == acomp
+            if any(right_token in dp for x in right_dep):
+            	for child in right_token.children: #will this cause error with no children?
+            		if right_token == dobj:
+            			dobj_mods = [nummod, compound, nmod]
+            			if any(child in dm for x in dobj_mods):
+            				object_expanded = child.text + right_token.text
+            		else if right_token == pobj:
+            			if child == nummod:
+            				object_expanded = child.text + right_token.text
+            		else if right_token == acomp:
+            			if child == npadvmod:
+            				object_expanded = child.text + right_token.text
+            	triple = [verb.text, nsubj.text, right_token.text, object_expanded]
+            else if right_token == prep:
+            	for child in right_token.children:
+            		if child == pobj:
+            			object_expanded = right_token.text + child.text 
+            				triple = [verb.text, nsubj.text, right_token.text, object_expanded]
+            			
+            
+           
