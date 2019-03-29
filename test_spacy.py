@@ -17,12 +17,15 @@ for token in doc:
     if token.dep == nsubj and token.head.pos == VERB:
         verb = token.head
         triple = {}
+        has_propn = token.pos == PNOUN 
 
         subject_expanded = ""
         for subject_child in token.children:
         	subj_mods = [poss, amod, compound]
         	if any(subject_child in sm for x in subj_mods):
         		subject_expanded = subject_child.text + token.text
+        		if subject_child.pos == PNOUN:
+        			has_propn = True
 
         right_dep = [dobj, pobj, npadvmod, acomp]
         object_expanded = ""
@@ -33,15 +36,25 @@ for token in doc:
             			dobj_mods = [nummod, compound, nmod]
             			if any(child in dm for x in dobj_mods):
             				object_expanded = child.text + right_token.text
+            				if subject_child.pos == PNOUN:
+            					has_propn = True
             		else if right_token == pobj:
             			if child == nummod:
             				object_expanded = child.text + right_token.text
+            				if subject_child.pos == PNOUN:
+            					has_propn = True
             		else if right_token == acomp:
             			if child == npadvmod:
             				object_expanded = child.text + right_token.text
-            	triple = [verb.text, token.text, subject_expanded, right_token.text, object_expanded]
+            				if subject_child.pos == PNOUN:
+            					has_propn = True
+            	if has_propn:
+            		triple = [verb.text, token.text, subject_expanded, right_token.text, object_expanded]
             else if right_token == prep:
             	for child in right_token.children:
             		if child == pobj:
             			object_expanded = right_token.text + child.text 
+            			if child.pos == PNOUN:
+            				has_propn = True
+            			if has_propn:
             				triple = [verb.text, nsubj.text, right_token.text, object_expanded]
