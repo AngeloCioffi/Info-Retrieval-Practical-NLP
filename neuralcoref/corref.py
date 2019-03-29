@@ -1,8 +1,20 @@
 import spacy
+from spacy import displacy
+
 nlp = spacy.load('en_coref_md')
-text = u'The bans come after Sunday\'s Ethiopian Airlines crash, which resulted in the deaths of 157 people near Addis Ababa.  The action comes despite the U.S. Federal Aviation Administration\'s continued vouching for the safety of the plane as American authorities, Boeing and Ethiopian investigators probe the crash.'
+
+print("loaded")
+
+text = r'''
+Although Apple does not break down sales of AirPods, the company reported in January that its "other" product category, which includes AirPod sales, grew 33% to $7.3 from a year earlier, the fastest growing category.'''
 
 doc = nlp(text)
 
 doc._.has_coref
-doc._.coref_clusters
+coref = doc._.coref_clusters
+resolved = doc._.coref_resolved
+
+print(coref)
+print(resolved)
+
+displacy.serve(coref, style="ent")
