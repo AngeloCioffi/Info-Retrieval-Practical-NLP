@@ -35,7 +35,7 @@ for company in companies:
 						articleString = ""
 						for sentence in articleBody:
 							sentenceText = sentence.text
-							articleString += sentenceText
+							articleString += " " + sentenceText
 
 						data.append({
 							'title': driver.find_element_by_css_selector('h1#article-headline').text,

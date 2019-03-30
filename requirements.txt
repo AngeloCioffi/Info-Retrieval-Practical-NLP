@@ -1,5 +1,5 @@
 textacy
 spacy
-pycorenlp
-cld2-cffi
+https://github.com/huggingface/neuralcoref-models/releases/download/en_coref_md-3.0.0/en_coref_md-3.0.0.tar.gz
+neo4j
 
